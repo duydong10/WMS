@@ -3,7 +3,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from '../pages/Home.jsx'
 import AdminLayout from '../layouts/AdminLayout.jsx'
-import Demo from '../pages/Demo.jsx'
+import FormFormat from '../pages/Form.jsx'
 
 export default function AppRoute() {
     return (
@@ -11,7 +11,7 @@ export default function AppRoute() {
             <Routes>
                 <Route path="/" element={<AdminLayout />}>
                     <Route index element={<Home />} />
-                    <Route path="demo" element={<Demo />} />
+                    <Route path="form" element={<FormFormat />} />
                 </Route>
             </Routes>
         </BrowserRouter>
