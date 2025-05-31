@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Label, TextInput, Button } from "flowbite-react";
 
-export default function FormFormat() {
+export default function AGVControl() {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
 

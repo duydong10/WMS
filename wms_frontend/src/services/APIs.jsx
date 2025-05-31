@@ -1,41 +1,53 @@
 // src//services/APIs.jsx
 // --------------------------------------------------------
 
-export async function fetchGetInbound(url, options = {}) {
-    try {
-        const res = await fetch(url, options);
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return await res.json();
-    } catch (error) {
-        console.error("Fetch error:", error);
-        throw error;
-    }
+
+export async function fetchCreateTask(data) {
+    const res = await fetch("/agv/create_task", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
 }
 
-export async function fetchGetOutbound(url, options = {}) {
-    try {
-        const res = await fetch(url, options);
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return await res.json();
-    } catch (error) {
-        console.error("Fetch error:", error);
-        throw error;
-    }
+export async function fetchCancelTask(data) {
+    const res = await fetch("/agv/cancel_task", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
 }
 
-export async function fetchGetInventory(url, options = {}) {
-    try {
-        const res = await fetch(url, options);
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return await res.json();
-    } catch (error) {
-        console.error("Fetch error:", error);
-        throw error;
-    }
+export async function fetchAgvCallback(data) {
+    const res = await fetch("/agv/callback", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+}
+
+export async function fetchResumeRobot(data) {
+    const res = await fetch("/agv/resume_robot", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+}
+
+export async function fetchStopRobot(data) {
+    const res = await fetch("/agv/stop_robot", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
 }
