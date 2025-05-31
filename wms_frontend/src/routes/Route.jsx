@@ -1,9 +1,9 @@
 // src/routes/Route.jsx
 // --------------------------------------------------------
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from '../pages/Home.jsx'
+import Home from '../pages/Inbound.jsx'
 import AdminLayout from '../layouts/AdminLayout.jsx'
-import FormFormat from '../pages/Form.jsx'
+import FormFormat from '../pages/AGVControl.jsx'
 
 export default function AppRoute() {
     return (

@@ -32,38 +32,26 @@ const customTheme = createTheme({
 }
 );
 
-const data = [
-    {
-        "id": "1",
-        "po": "abc",
-        "asn": "1223"
-    },
-    {
-        "id": "2",
-        "po": "def",
-        "asn": "456"
-    },
-    {
-        "id": "3",
-        "po": "cdnlsan",
-        "asn": "dsabk"
-    }
-]
+function TableFormat({ data }) {
+    if (!data || data.length === 0) return null;
+    // Lấy danh sách key từ object đầu tiên, loại bỏ 'id' nếu không muốn hiển thị
+    const keys = Object.keys(data[0]).filter(key => key !== "id");
 
-function TableFormat() {
     return (
         <ThemeProvider theme={customTheme}>
             <div className="overflow-x-auto">
                 <Table striped>
                     <TableHead>
-                        <TableHeadCell>PO</TableHeadCell>
-                        <TableHeadCell>ASN</TableHeadCell>
+                        {keys.map((key) => (
+                            <TableHeadCell key={key}>{key.toUpperCase()}</TableHeadCell>
+                        ))}
                     </TableHead>
                     <TableBody>
-                        {data.map((data) => (
-                            <TableRow key={data.id}>
-                                <TableCell>{data.po}</TableCell>
-                                <TableCell>{data.asn}</TableCell>
+                        {data.map((row) => (
+                            <TableRow key={row.id}>
+                                {keys.map((key) => (
+                                    <TableCell key={key}>{row[key]}</TableCell>
+                                ))}
                             </TableRow>
                         ))}
                     </TableBody>

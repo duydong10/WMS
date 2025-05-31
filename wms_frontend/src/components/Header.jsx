@@ -5,8 +5,7 @@ import { createTheme, ThemeProvider } from "flowbite-react";
 import { Dropdown, DropdownDivider, DropdownHeader, DropdownItem } from "flowbite-react";
 import logo from '../assets/logo.png'
 import logoDark from '../assets/logo-dark.png'
-import { DarkThemeToggle } from 'flowbite-react';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const HeaderTheme = createTheme({
     navbar: {
@@ -91,31 +90,41 @@ const HeaderTheme = createTheme({
     }
 })
 
-function HeaderFormat() {
-    const [dark, setDark] = useState(false)
+function useDarkModeDetector() {
+  const [isDarkMode, setIsDarkMode] = useState(
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
 
-    useEffect(() => {
-        if (dark) {
-            document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
-    })
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const handleChange = (e) => {
+      setIsDarkMode(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
+  return isDarkMode;
+}
+
+function HeaderFormat() {
+    const isDarkMode = useDarkModeDetector();
 
     return (
         <>
             <ThemeProvider theme={HeaderTheme}>
                 <Navbar fluid rounded>
                     <a href="https://tanhungha.com.vn" className="flex">
-                        {dark ? (
+                        {isDarkMode ? (
                             <img src={logoDark} className="mr-3 h-6 sm:h-9" alt="Logo" />
                         ): (<img src={logo} className="mr-3 h-6 sm:h-9" alt="Logo" />)}
-
                     </a>
                     <div className="flex flex-row">
-                        <button className="mx-2" onClick={() => setDark((e) => !e)}>
-                            <DarkThemeToggle />
-                        </button>
                         <Dropdown label="Menu" className="mx-2">
                             <DropdownHeader>
                                 <span className="block text-sm">Hello, Duy Dong Pham</span>
