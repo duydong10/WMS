@@ -1,17 +1,19 @@
 // src/routes/Route.jsx
 // --------------------------------------------------------
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from '../pages/Inbound.jsx'
+import Dashboard from '../pages/Dashboard.jsx'
 import AdminLayout from '../layouts/AdminLayout.jsx'
 import CreateTask from '../pages/CreateTask.jsx'
+import CancelTask from '../pages/CancelTask.jsx'
 
 export default function AppRoute() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<AdminLayout />}>
-                    <Route index element={<Home />} />
+                    <Route index element={<Dashboard />} />
                     <Route path="create_task" element={<CreateTask />} />
+                    <Route path="cancel_task" element={<CancelTask />} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -3,13 +3,14 @@
 
 
 export async function fetchCreateTask(data) {
-    const res = await fetch("/agv/create_task", {
+    const res = await fetch("http://192.168.68.103:5000/agv/create_task", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
     })
+    return res.json();
 }
 
 export async function fetchCancelTask(data) {

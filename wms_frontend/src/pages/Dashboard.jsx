@@ -20,12 +20,13 @@ const data = [
     }
 ]
 
-function Home() {
+function Dashboard() {
     return (
-        <>
+        <article>
+            <title>Dashboard</title>
             <TableFormat data={data} />
-        </>
+        </article>
     )
 }
 
-export default Home;
+export default Dashboard;
