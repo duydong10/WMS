@@ -10,7 +10,7 @@ CORS(app)
 df = pd.read_excel("./static/mapping.xlsx", dtype=str)
 
 
-@app.route('/agv/create_task', methods=['GET', 'POST', 'OPTIONS'])
+@app.route('/agv/create_task', methods=['POST'])
 def createTask():
     if request.method == 'OPTIONS':
         return '', 200
@@ -37,10 +37,10 @@ def createTask():
     data = res.json()
     return jsonify(data), 200
 
-@app.route('/agv/cancel_task', methods=['GET', 'POST'])
+@app.route('/agv/cancel_task', methods=['POST'])
 def cancelTask():
     req = request.get_json()
-    url = "http://[address]:8182/rcms/services/rest/hikRpcService/cancelTask"
+    url = "https://httpbin.org/post"
     res = requests.post(url, json=req)
     data = res.json()
     return jsonify(data), 200
