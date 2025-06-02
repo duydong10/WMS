@@ -1,28 +1,14 @@
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 import requests
-import string
 import pandas as pd
+from function.mapping import mapping
+
 
 app = Flask(__name__)
 CORS(app)
-
 df = pd.read_excel("./static/mapping.xlsx", dtype=str)
 
-def mapping(begin, end):
-    for i in range(len(df)):
-        if df["PosCode"][i] == begin:
-            xs = df["XT"][i]
-            ys = df["YT"][i]
-            mapIDs = df["MapCode"][i]
-        elif df["PosCode"][i] == end:
-            xe = df["XT"][i]
-            ye = df["YT"][i]
-            mapIDe = df["MapCode"][i]
-    return {
-        "begin": f"{xs}{mapIDs}{ys}",
-        "end": f"{xe}{mapIDe}{ye}",
-    }
 
 @app.route('/agv/create_task', methods=['GET', 'POST', 'OPTIONS'])
 def createTask():
@@ -32,7 +18,7 @@ def createTask():
     req = request.get_json()
     begin = req.get("begin")
     end = req.get("end")
-    posCode = mapping(begin, end)
+    posCode = mapping(df, begin, end)
 
     req["positionCodePath"] = [
         {
