@@ -3,7 +3,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from '../pages/Inbound.jsx'
 import AdminLayout from '../layouts/AdminLayout.jsx'
-import AGVControl from '../pages/AGVControl.jsx'
+import CreateTask from '../pages/CreateTask.jsx'
 
 export default function AppRoute() {
     return (
@@ -11,7 +11,7 @@ export default function AppRoute() {
             <Routes>
                 <Route path="/" element={<AdminLayout />}>
                     <Route index element={<Home />} />
-                    <Route path="agv_control" element={<AGVControl />} />
+                    <Route path="create_task" element={<CreateTask />} />
                 </Route>
             </Routes>
         </BrowserRouter>
