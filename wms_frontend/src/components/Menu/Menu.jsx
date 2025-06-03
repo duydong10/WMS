@@ -37,10 +37,22 @@ const MenuTheme = createTheme({
 function MenuFormat() {
     const [showInbound, setShowInbound] = useState(false);
     const [showInventory, setShowInventory] = useState(false);
+    const [showController, setShowController] = useState(false);
 
     return (
         <ThemeProvider theme={MenuTheme}>
             <ListGroup className="min-h-screen">
+                <ListGroupItem onClick={() => setShowController((e) => !e)}>
+                    AGV Controller
+                </ListGroupItem>
+                {showController && (
+                    <>
+                        <ListGroupItem href="/create_task"><p className="list-inside">Create Task</p></ListGroupItem>
+                        <ListGroupItem href="/continue_task"><p className="list-inside">Continue Task</p></ListGroupItem>
+                        <ListGroupItem href="/cancel_task"><p className="list-inside">Cancel Task</p></ListGroupItem>
+                        <ListGroupItem href="/agv_callback"><p className="list-inside">AGV Callback</p></ListGroupItem>
+                    </>
+                )}
                 <ListGroupItem>System Management</ListGroupItem>
                 <ListGroupItem>System Config</ListGroupItem>
                 <ListGroupItem>Dashboard</ListGroupItem>

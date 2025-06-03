@@ -45,7 +45,7 @@ export default function CancelTask() {
 
     return (
         <article>
-            <title>Create Task</title>
+            <title>Cancel Task</title>
 
             <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
                 <div>
