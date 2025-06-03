@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Label, TextInput, Button, Select, Textarea } from "flowbite-react";
+import { Alert } from "flowbite-react";
 import { fetchCreateTask } from "../services/APIs";
 
 export default function CreateTask() {
@@ -13,8 +14,8 @@ export default function CreateTask() {
     const [podTyp, setPodTyp] = useState("1");
     const [agvCode, setAgvCode] = useState("");
     const [taskCode, setTaskCode] = useState("");
-    const [message, setMessage] = useState("");
-    const [msgType, setMsgType] = useState("");
+    const [message, setMessage] = useState(null);
+    const [msgType, setMsgType] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -37,18 +38,18 @@ export default function CreateTask() {
                 setMsgType(true);
                 console.log("Response:", res);
                 setTimeout(() => {
-                    setMessage("");
-                    setMsgType("");
-                }, 3000);
+                    setMessage(null);
+                    setMsgType(null);
+                }, 5000);
             })
             .catch((err) => {
                 setMessage("Task created unsuccessfully!");
                 setMsgType(false);
                 console.log("Error:", err);
                 setTimeout(() => {
-                    setMessage("");
-                    setMsgType("");
-                }, 3000);
+                    setMessage(null);
+                    setMsgType(null);
+                }, 5000);
             });
 
     };
@@ -195,10 +196,12 @@ export default function CreateTask() {
                         </div>
                     </div>
                 </div>
-                <div className="pt-4">
+                <div className="pt-4 w-2/3">
                     <Button type="submit">Submit</Button>
-                    <div id="submit-btn" className={`text-sm ${msgType === true ? 'text-green-500' : 'text-red-500'}`}>{message}</div>
                 </div>
+                <Alert color={`${msgType === true ? 'success' : 'failure'}`} className={`fixed top-[60px] right-0 ${message === '' ? 'hidden' : null}`}>
+                        {message}
+                </Alert>
             </form>
         </article>
     );
