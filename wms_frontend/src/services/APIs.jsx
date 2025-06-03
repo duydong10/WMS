@@ -25,13 +25,25 @@ export async function fetchCancelTask(data) {
 }
 
 export async function fetchAgvCallback(data) {
-    const res = await fetch("/agv/callback", {
+    const res = await fetch("http://192.168.68.103:5000/agv/agv_callback", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
     })
+    return res.json();
+}
+
+export async function fetchContinueTask(data) {
+    const res = await fetch("http://192.168.68.103:5000/agv/continue_task", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    return res.json();
 }
 
 export async function fetchResumeRobot(data) {

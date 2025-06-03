@@ -16,22 +16,11 @@ def createTask():
         return '', 200
     
     req = request.get_json()
-    begin = req.get("begin")
-    end = req.get("end")
-    posCode = mapping(df, begin, end)
+    for posCodePath in req["positionCodePath"]:
+        posCode = posCodePath["positionCode"]
+        posCodeMap = mapping(df, posCode)
+        posCodePath["positionCode"] = posCodeMap
 
-    req["positionCodePath"] = [
-        {
-            "positionCode": posCode["begin"],
-            "type": "00"
-        },
-        {
-            "positionCode": posCode["end"],
-            "type": "00"
-        }
-    ]
-    del req["begin"]
-    del req["end"]
     url = "https://httpbin.org/post"
     res = requests.post(url, json=req)
     data = res.json()
@@ -45,15 +34,23 @@ def cancelTask():
     data = res.json()
     return jsonify(data), 200
 
-@app.route('/agv/agv_callback', methods=['GET', 'POST'])
-def agvCallback():
+@app.route('/agv/continue_task', methods=['POST'])
+def continueTask():
     req = request.get_json()
-    url = "http://[address]:8182/xxx/agv/agvCallbackService/agvCallback"
+    url = "https://httpbin.org/post"
     res = requests.post(url, json=req)
     data = res.json()
     return jsonify(data), 200
 
-@app.route('/agv/lock_position', methods=['GET', 'POST'])
+@app.route('/agv/agv_callback', methods=['POST'])
+def agvCallback():
+    req = request.get_json()
+    url = "https://httpbin.org/post"
+    res = requests.post(url, json=req)
+    data = res.json()
+    return jsonify(data), 200
+
+@app.route('/agv/lock_position', methods=['POST'])
 def lockPosition():
     req = request.get_json()
     url = "http://[address]:8182/rcms/services/rest/hikRpcService/lockPosition"
@@ -61,7 +58,7 @@ def lockPosition():
     data = res.json()
     return jsonify(data), 200
 
-@app.route('/agv/stop_robot', methods=['GET', 'POST'])
+@app.route('/agv/stop_robot', methods=['POST'])
 def stopRobot():
     req = request.get_json()
     url = "http://[address]:8182/rcms/services/rest/hikRpcService/stopRobot"
@@ -69,7 +66,7 @@ def stopRobot():
     data = res.json()
     return jsonify(data), 200
 
-@app.route('/agv/resume_robot', methods=['GET', 'POST'])
+@app.route('/agv/resume_robot', methods=['POST'])
 def resumeRobot():
     req = request.get_json()
     url = "http://[address]:8182/rcms/services/rest/hikRpcService/resumeRobot"

@@ -75,7 +75,7 @@ export default function CancelTask() {
                 </div>
                 <div>
                     <div className="mb-2 block">
-                        <Label htmlFor="agvCode">AGV Code</Label>
+                        <Label htmlFor="agvCode">AMR ID</Label>
                     </div>
                     <TextInput
                         id="agvCode"

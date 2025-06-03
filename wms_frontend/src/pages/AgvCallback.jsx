@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { Label, TextInput, Button, Select, Textarea } from "flowbite-react";
-import { fetchCreateTask } from "../services/APIs";
+import { Label, TextInput, Button, Select } from "flowbite-react";
+import { fetchAgvCallback } from "../services/APIs";
 
-export default function CreateTask() {
-    const [posCodePath, setPosCodePath] = useState(`[{"positionCode": "A1","type": "00"},{"positionCode": "A2","type": "00"}]`);
+export default function AgvCallback() {
     const [reqCode, setReqCode] = useState("");
     const [reqTime, setReqTime] = useState("");
-    const [taskTyp, setTaskTyp] = useState("");
-    const [wbCode, setWbCode] = useState("");
+    const [cooX, setCooX] = useState("");
+    const [cooY, setCooY] = useState("");
+    const [currentPosCode, setCurrentPosCode] = useState("");
+    const [mapCode, setMapCode] = useState("");
+    const [mapDataCode, setMapDataCode] = useState("");
+    const [method, setMethod] = useState("");
     const [podCode, setPodCode] = useState("");
     const [podDir, setPodDir] = useState("");
-    const [podTyp, setPodTyp] = useState("1");
-    const [agvCode, setAgvCode] = useState("");
+    const [robotCode, setRobotCode] = useState("");
     const [taskCode, setTaskCode] = useState("");
+    const [wbCode, setWbCode] = useState("");
     const [message, setMessage] = useState("");
     const [msgType, setMsgType] = useState("");
 
@@ -21,19 +24,22 @@ export default function CreateTask() {
         const data = {
             "reqCode": reqCode,
             "reqTime": reqTime,
-            "taskTyp": taskTyp,
-            "wbCode": wbCode,
+            "cooX": cooX,
+            "cooY": cooY,
+            "currentPositionCode": currentPosCode,
+            "mapCode": mapCode,
+            "mapDataCode": mapDataCode,
+            "method": method,
             "podCode": podCode,
             "podDir": podDir,
-            "podTyp": podTyp,
-            "agvCode": agvCode,
+            "robotCode": robotCode,
             "taskCode": taskCode,
-            "positionCodePath": JSON.parse(posCodePath),
+            "wbCode": wbCode,
         };
         console.log("Data", data);
-        fetchCreateTask(data)
+        fetchAgvCallback(data)
             .then((res) => {
-                setMessage("Task created successfully!");
+                setMessage("AGV callback successfully!");
                 setMsgType(true);
                 console.log("Response:", res);
                 setTimeout(() => {
@@ -42,7 +48,7 @@ export default function CreateTask() {
                 }, 3000);
             })
             .catch((err) => {
-                setMessage("Task created unsuccessfully!");
+                setMessage("AGV callback unsuccessfully!");
                 setMsgType(false);
                 console.log("Error:", err);
                 setTimeout(() => {
@@ -55,7 +61,7 @@ export default function CreateTask() {
 
     return (
         <article>
-            <title>Create Task</title>
+            <title>AGV Callback</title>
 
             <form className="flex flex-col w-full" onSubmit={handleSubmit}>
                 <div className="flex flex-row">
@@ -83,42 +89,83 @@ export default function CreateTask() {
                                 sizing="md"
                                 value={reqTime}
                                 onChange={(e) => setReqTime(e.target.value)}
+                                required
                             />
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="taskTyp">Task Type</Label>
-                            </div>
-                            <Select id="taskTyp" onChange={(e) => setTaskTyp(e.target.value)} required>
-                                <option value="">Select Task Type</option>
-                                <option value="F01">"F01" - Carry and transfer rack</option>
-                                <option value="F02">"F02" - Empty / Full rack exchange</option>
-                                <option value="F03">"F03" - Carry and transfer by CMR</option>
-                                <option value="F04">"F04" - Rack outbound</option>
-                                <option value="F05">"F05" - Rotate rack</option>
-                                <option value="F06">"F06" - Elevator task</option>
-                                {/* <option value="F11">"F11" - Transfer from high bay rack to workstation</option>
-                                <option value="F12">"F12" - Transfer from workstation to high bay rack</option>
-                                <option value="F13">"F13" - Transfer from roadway to workstation</option>
-                                <option value="F14">"F14" - Transfer from workstation to roadway</option>
-                                <option value="F15">"F15" - Shuttle from high bay rack to workstation</option>
-                                <option value="F16">"F16" - Shuttle from workstation to high bay rack</option>
-                                <option value="F17">"F17" - Shuttle from roadway to workstation</option>
-                                <option value="F18">"F18" - Shuttle from workstation to roadway</option>
-                                <option value="F20">"F20" - Cross-floor forklift main task</option> */}
-                            </Select>
-                        </div>
-                        <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="wbCode">Workstation Code</Label>
+                                <Label htmlFor="cooX">X-Coordinate</Label>
                             </div>
                             <TextInput
-                                id="wbCode"
+                                id="cooX"
                                 type="text"
                                 sizing="md"
-                                value={wbCode}
-                                onChange={(e) => setWbCode(e.target.value)}
+                                value={cooX}
+                                onChange={(e) => setCooX(e.target.value)}
                             />
+                        </div>
+                        <div>
+                            <div className="mb-2 block">
+                                <Label htmlFor="cooY">Y-Coordinate</Label>
+                            </div>
+                            <TextInput
+                                id="cooY"
+                                type="text"
+                                sizing="md"
+                                value={cooY}
+                                onChange={(e) => setCooY(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <div className="mb-2 block">
+                                <Label htmlFor="currentPosCode">Current Position ID</Label>
+                            </div>
+                            <TextInput
+                                id="currentPosCode"
+                                type="text"
+                                sizing="md"
+                                value={currentPosCode}
+                                onChange={(e) => setCurrentPosCode(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <div className="mb-2 block">
+                                <Label htmlFor="mapCode">Map ID</Label>
+                            </div>
+                            <TextInput
+                                id="mapCode"
+                                type="text"
+                                sizing="md"
+                                value={mapCode}
+                                onChange={(e) => setMapCode(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <div className="mb-2 block">
+                                <Label htmlFor="mapDataCode">Location Code on Map</Label>
+                            </div>
+                            <TextInput
+                                id="mapDataCode"
+                                type="text"
+                                sizing="md"
+                                value={mapDataCode}
+                                onChange={(e) => setMapDataCode(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex w-1/3 flex-col gap-4 mx-8">
+                        <div>
+                            <div className="mb-2 block">
+                                <Label htmlFor="method">Task executing status</Label>
+                            </div>
+                            <Select id="method" onChange={(e) => setMethod(e.target.value)} required>
+                                <option value="">Select Method</option>
+                                <option value="start">"start" - Task started</option>
+                                <option value="outbin">"outbin" - Executing</option>
+                                <option value="end">"end" - Task completed</option>
+                                <option value="cancel">"cancel" - Cancel task</option>
+                            </Select>
                         </div>
                         <div>
                             <div className="mb-2 block">
@@ -144,18 +191,17 @@ export default function CreateTask() {
                                 <option value="-90">"-90" - Downward</option>
                             </Select>
                         </div>
-                    </div>
-                    <div className="flex w-1/3 flex-col gap-4 mx-8">
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="podTyp">Task Type</Label>
+                                <Label htmlFor="robotCode">AMR ID</Label>
                             </div>
                             <TextInput
-                                id="podTyp"
+                                id="robotCode"
                                 type="text"
                                 sizing="md"
-                                value={podTyp}
-                                onChange={(e) => setPodTyp(e.target.value)}
+                                value={robotCode}
+                                onChange={(e) => setRobotCode(e.target.value)}
+                                required
                             />
                         </div>
                         <div>
@@ -168,29 +214,19 @@ export default function CreateTask() {
                                 sizing="md"
                                 value={taskCode}
                                 onChange={(e) => setTaskCode(e.target.value)}
+                                required
                             />
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="agvCode">AMR ID</Label>
+                                <Label htmlFor="wbCode">Workstation Code</Label>
                             </div>
                             <TextInput
-                                id="agvCode"
+                                id="wbCode"
                                 type="text"
                                 sizing="md"
-                                value={agvCode}
-                                onChange={(e) => setAgvCode(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="posCodePath">Rack moving pattern</Label>
-                            </div>
-                            <Textarea
-                                id="posCodePath"
-                                rows={10}
-                                value={posCodePath}
-                                onChange={(e) => setPosCodePath(e.target.value)}
+                                value={wbCode}
+                                onChange={(e) => setWbCode(e.target.value)}
                             />
                         </div>
                     </div>
