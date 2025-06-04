@@ -6,7 +6,7 @@ import MenuFormat from "../components/Menu/Menu.jsx";
 
 function AdminLayout() {
     return (
-        <div className="flex flex-col min-w-screen h-screen">
+        <div className="flex flex-col max-w-screen h-screen">
             <header>
                 <HeaderFormat />
             </header>

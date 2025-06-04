@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from "flowbite-react";
 import { Dropdown, DropdownDivider, DropdownHeader, DropdownItem } from "flowbite-react";
 import logo from '../assets/logo.png'
 import logoDark from '../assets/logo-dark.png'
-import { useEffect, useState } from 'react';
+import { useDarkModeDetector } from "./DarkMode.jsx";
 
 const HeaderTheme = createTheme({
     navbar: {
@@ -90,29 +90,8 @@ const HeaderTheme = createTheme({
     }
 })
 
-function useDarkModeDetector() {
-  const [isDarkMode, setIsDarkMode] = useState(
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-  );
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const handleChange = (e) => {
-      setIsDarkMode(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleChange);
-    };
-  }, []);
-
-  return isDarkMode;
-}
-
-function HeaderFormat() {
+export default function HeaderFormat() {
     const isDarkMode = useDarkModeDetector();
 
     return (
@@ -133,7 +112,7 @@ function HeaderFormat() {
                             <DropdownItem>Change Password</DropdownItem>
                             <DropdownItem>Change Language</DropdownItem>
                             <DropdownDivider />
-                            <DropdownItem>Sign out</DropdownItem>
+                            <DropdownItem href="/login" onClick={() => localStorage.removeItem("jwtToken")}>Sign out</DropdownItem>
                         </Dropdown>
                     </div>
                 </Navbar>
@@ -141,5 +120,3 @@ function HeaderFormat() {
         </>
     )
 };
-
-export default HeaderFormat;

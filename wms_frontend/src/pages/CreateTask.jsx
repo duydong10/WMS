@@ -14,8 +14,8 @@ export default function CreateTask() {
     const [podTyp, setPodTyp] = useState("1");
     const [agvCode, setAgvCode] = useState("");
     const [taskCode, setTaskCode] = useState("");
-    const [message, setMessage] = useState(null);
-    const [msgType, setMsgType] = useState(null);
+    const [message, setMessage] = useState("");
+    const [msgType, setMsgType] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,7 +35,7 @@ export default function CreateTask() {
         fetchCreateTask(data)
             .then((res) => {
                 setMessage("Task created successfully!");
-                setMsgType(true);
+                setMsgType("success");
                 console.log("Response:", res);
                 setTimeout(() => {
                     setMessage(null);
@@ -44,7 +44,7 @@ export default function CreateTask() {
             })
             .catch((err) => {
                 setMessage("Task created unsuccessfully!");
-                setMsgType(false);
+                setMsgType("failure");
                 console.log("Error:", err);
                 setTimeout(() => {
                     setMessage(null);
@@ -199,9 +199,14 @@ export default function CreateTask() {
                 <div className="pt-4 w-2/3">
                     <Button type="submit">Submit</Button>
                 </div>
-                <Alert color={`${msgType === true ? 'success' : 'failure'}`} className={`fixed top-[60px] right-0 ${message === '' ? 'hidden' : null}`}>
+                {message && (
+                    <Alert
+                        color={msgType === "success" ? "success" : msgType === "failure" ? "failure" : "info"}
+                        className="m-4 fixed top-[60px] right-0"
+                    >
                         {message}
-                </Alert>
+                    </Alert>
+                )}
             </form>
         </article>
     );

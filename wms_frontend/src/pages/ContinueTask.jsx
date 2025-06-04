@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Label, TextInput, Button, Select, Textarea } from "flowbite-react";
+import { Label, TextInput, Button, Alert } from "flowbite-react";
 import { fetchContinueTask } from "../services/APIs";
 
 export default function ContinueTask() {
@@ -26,7 +26,7 @@ export default function ContinueTask() {
         fetchContinueTask(data)
             .then((res) => {
                 setMessage("Task continued successfully!");
-                setMsgType(true);
+                setMsgType("success");
                 console.log("Response:", res);
                 setTimeout(() => {
                     setMessage("");
@@ -35,7 +35,7 @@ export default function ContinueTask() {
             })
             .catch((err) => {
                 setMessage("Task continued unsuccessfully!");
-                setMsgType(false);
+                setMsgType("failure");
                 console.log("Error:", err);
                 setTimeout(() => {
                     setMessage("");
@@ -129,10 +129,17 @@ export default function ContinueTask() {
                         </div>
                     </div>
                 </div>
-                <div className="pt-4">
+                <div className="pt-4 w-2/3">
                     <Button type="submit">Submit</Button>
-                    <div id="submit-btn" className={`text-sm ${msgType === true ? 'text-green-500' : 'text-red-500'}`}>{message}</div>
                 </div>
+                {message && (
+                    <Alert
+                        color={msgType === "success" ? "success" : msgType === "failure" ? "failure" : "info"}
+                        className="m-4 fixed top-[60px] right-0"
+                    >
+                        {message}
+                    </Alert>
+                )}
             </form>
         </article>
     );
