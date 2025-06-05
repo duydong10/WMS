@@ -1,6 +1,9 @@
+// src/pages/ContinueTask.jsx
+// --------------------------------------------------------
 import { useState } from "react";
-import { Label, TextInput, Button, Alert } from "flowbite-react";
+import { Label, TextInput, Button } from "flowbite-react";
 import { fetchContinueTask } from "../services/APIs";
+import SubmitAlert from "../components/SubmitAlert.jsx";
 
 export default function ContinueTask() {
     const [reqCode, setReqCode] = useState("");
@@ -48,10 +51,10 @@ export default function ContinueTask() {
     return (
         <article>
             <title>Continue Task</title>
-
+            <h1 className="text-2xl font-bold mb-4">Continue Task</h1>
             <form className="flex flex-col w-full" onSubmit={handleSubmit}>
                 <div className="flex flex-row">
-                    <div className="flex w-1/3 flex-col gap-4">
+                    <div className="flex w-1/2 md:w-1/3 flex-col gap-4">
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="reqCode">Request ID</Label>
@@ -90,7 +93,7 @@ export default function ContinueTask() {
                             />
                         </div>
                     </div>
-                    <div className="flex w-1/3 flex-col gap-4 mx-8">
+                    <div className="flex w-1/2 md:w-1/3 flex-col gap-4 ml-8">
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="podCode">Rack ID</Label>
@@ -132,14 +135,7 @@ export default function ContinueTask() {
                 <div className="pt-4 w-2/3">
                     <Button type="submit">Submit</Button>
                 </div>
-                {message && (
-                    <Alert
-                        color={msgType === "success" ? "success" : msgType === "failure" ? "failure" : "info"}
-                        className="m-4 fixed top-[60px] right-0"
-                    >
-                        {message}
-                    </Alert>
-                )}
+                <SubmitAlert message={message} msgType={msgType} />
             </form>
         </article>
     );

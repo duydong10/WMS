@@ -42,7 +42,7 @@ def login():
         token = jwt.encode(
             {
                 'account': account,
-                'exp': datetime.now(timezone.utc) + timedelta(minutes=5),
+                'exp': datetime.now(timezone.utc) + timedelta(minutes=10),
             },
             SECRET_KEY,
             algorithm="HS256"
@@ -51,6 +51,17 @@ def login():
             token = token.decode('utf-8')
         print(f"Token generated: {token}")
         return jsonify({"msgType": "success", "message": "Login successful", "token": token}), 200
+    else:
+        return jsonify({"msgType": "failure", "message": "Invalid credentials"}), 401
+
+@app.route('/change_password', methods=['POST'])
+@token_required
+def change_password():
+    req = request.get_json()
+    global account, password
+    if req['account'] == account and req['oldPassword'] == password:
+        password = req['newPassword']
+        return jsonify({"msgType": "success", "message": "Password changed successfully"}), 200
     else:
         return jsonify({"msgType": "failure", "message": "Invalid credentials"}), 401
 

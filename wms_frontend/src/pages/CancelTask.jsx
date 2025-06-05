@@ -1,6 +1,9 @@
+// src/pages/CancelTask.jsx
+// --------------------------------------------------------
 import { useState } from "react";
-import { Label, TextInput, Button, Select, Alert } from "flowbite-react";
+import { Label, TextInput, Button, Select } from "flowbite-react";
 import { fetchCancelTask } from "../services/APIs";
+import SubmitAlert from "../components/SubmitAlert.jsx";
 
 export default function CancelTask() {
     const [reqCode, setReqCode] = useState("");
@@ -46,7 +49,7 @@ export default function CancelTask() {
     return (
         <article>
             <title>Cancel Task</title>
-
+            <h1 className="text-2xl font-bold mb-4">Cancel Task</h1>
             <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
                 <div>
                     <div className="mb-2 block">
@@ -110,14 +113,7 @@ export default function CancelTask() {
                 <div className="pt-4 w-2/3">
                     <Button type="submit">Submit</Button>
                 </div>
-                {message && (
-                    <Alert
-                        color={msgType === "success" ? "success" : msgType === "failure" ? "failure" : "info"}
-                        className="m-4 fixed top-[60px] right-0"
-                    >
-                        {message}
-                    </Alert>
-                )}
+                <SubmitAlert message={message} type={msgType} />
             </form>
         </article>
     );

@@ -1,11 +1,21 @@
 // src/components/Header.jsx
 // --------------------------------------------------------
-import { Navbar } from "flowbite-react";
 import { createTheme, ThemeProvider } from "flowbite-react";
-import { Dropdown, DropdownDivider, DropdownHeader, DropdownItem } from "flowbite-react";
+import { Navbar, Dropdown, DropdownDivider, DropdownHeader, DropdownItem } from "flowbite-react";
 import logo from '../assets/logo.png'
 import logoDark from '../assets/logo-dark.png'
-import { useDarkModeDetector } from "./DarkMode.jsx";
+import useDarkModeDetector from "./DarkMode.jsx";
+import { useState } from "react";
+import { MdAccountCircle } from "react-icons/md";
+import { HiLogout } from "react-icons/hi";
+import { FaUserLock } from "react-icons/fa6";
+import { IoLanguage } from "react-icons/io5";
+import { IoMdSettings } from "react-icons/io";
+import { RiArrowRightSFill } from "react-icons/ri";
+import { MdOutlineMenu } from "react-icons/md";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
+
 
 const HeaderTheme = createTheme({
     navbar: {
@@ -93,6 +103,8 @@ const HeaderTheme = createTheme({
 
 export default function HeaderFormat() {
     const isDarkMode = useDarkModeDetector();
+    const [show, setShow] = useState(false);
+    const [menu, setMenu] = useState(false);
 
     return (
         <>
@@ -101,18 +113,63 @@ export default function HeaderFormat() {
                     <a href="https://tanhungha.com.vn" className="flex">
                         {isDarkMode ? (
                             <img src={logoDark} className="mr-3 h-6 sm:h-9" alt="Logo" />
-                        ): (<img src={logo} className="mr-3 h-6 sm:h-9" alt="Logo" />)}
+                        ) : (<img src={logo} className="mr-3 h-6 sm:h-9" alt="Logo" />)}
                     </a>
-                    <div className="flex flex-row">
-                        <Dropdown label="Menu" className="mx-2">
-                            <DropdownHeader>
-                                <span className="block text-sm">Hello, Duy Dong Pham</span>
+                    <div className="flex flex-row" onClick={() => {
+                        setShow(false);
+                        setMenu(s => !s);
+                    }}>
+                        <Dropdown
+                            className="mx-2"
+                            arrowIcon={false}
+                            label={
+                                <>
+                                    <div className="hidden lg:flex items-center">
+                                        <span>Menu</span>
+                                        {/* <IoIosArrowDown className="ml-2 h-4 w-4" /> */}
+                                        {menu ? (
+                                            <IoIosArrowUp className="ml-2 h-4 w-4" />
+                                        ) : (
+                                            <IoIosArrowDown className="ml-2 h-4 w-4" />
+                                        )}
+                                    </div>
+                                    <MdOutlineMenu className="h-6 w-6 block lg:hidden" />
+                                </>
+                            }>
+                            <DropdownHeader className="flex items-center">
+                                <MdAccountCircle className="mr-2 h-4 w-4" />
+                                <span className="block text-sm">Hello, {localStorage.getItem("account")}</span>
                             </DropdownHeader>
                             <DropdownDivider />
-                            <DropdownItem>Change Password</DropdownItem>
-                            <DropdownItem>Change Language</DropdownItem>
+                            <DropdownItem href="/change_password" icon={FaUserLock}>Change Password</DropdownItem>
+                            <DropdownItem icon={IoLanguage}>Change Language</DropdownItem>
                             <DropdownDivider />
-                            <DropdownItem href="/login" onClick={() => localStorage.removeItem("jwtToken")}>Sign out</DropdownItem>
+                            <button type="button" className="flex w-full cursor-pointer items-center justify-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white lg:hidden">
+                                <IoMdSettings className="mr-2 h-4 w-4" />
+                                <div onClick={e => {
+                                    e.stopPropagation();
+                                    setShow(s => !s);
+                                }}>
+                                    AGV Controller
+                                </div>
+                            </button>
+                            <div className="lg:hidden flex flex-col">
+                                {show && (
+                                    <div className="flex flex-col pl-1">
+                                        <DropdownItem href="/create_task" icon={RiArrowRightSFill}>Create Task</DropdownItem>
+                                        <DropdownItem href="/continue_task" icon={RiArrowRightSFill}>Continue Task</DropdownItem>
+                                        <DropdownItem href="/cancel_task" icon={RiArrowRightSFill}>Cancel Task</DropdownItem>
+                                        <DropdownItem href="/agv_callback" icon={RiArrowRightSFill}>AGV Callback</DropdownItem>
+                                    </div>
+                                )}
+                            </div>
+                            <DropdownDivider className="lg:hidden" />
+                            <DropdownItem href="/login" icon={HiLogout} onClick={() => {
+                                localStorage.removeItem("jwtToken"),
+                                    localStorage.removeItem("account")
+                            }}>
+                                Sign out
+                            </DropdownItem>
                         </Dropdown>
                     </div>
                 </Navbar>

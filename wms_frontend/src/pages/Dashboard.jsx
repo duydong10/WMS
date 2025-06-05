@@ -1,4 +1,4 @@
-// src/pages/Home.jsx
+// src/pages/Dashboard.jsx
 // --------------------------------------------------------
 import TableFormat from '../components/Table.jsx'
 
@@ -24,6 +24,7 @@ function Dashboard() {
     return (
         <article>
             <title>Dashboard</title>
+            <h1 className="text-2xl font-bold mb-4">Monitoring Dashboard</h1>
             <TableFormat data={data} />
         </article>
     )

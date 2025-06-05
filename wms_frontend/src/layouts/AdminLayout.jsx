@@ -10,9 +10,9 @@ function AdminLayout() {
             <header>
                 <HeaderFormat />
             </header>
-            <main className="flex m-2">
-                <div className="w-1/5 mr-2"><MenuFormat /></div>
-                <div className="w-4/5 mr-2"><Outlet /></div>     
+            <main className="flex m-5">
+                <div className="w-1/5 lg:block hidden"><MenuFormat /></div>
+                <div className="w-full lg:w-4/5 mx-2 lg:ml-4"><Outlet /></div>     
             </main>
         </div>
     )

@@ -1,15 +1,15 @@
 // src/pages/Login.jsx
 //--------------------------------------------------------
 
-import { Label, TextInput, Button, Alert } from "flowbite-react";
+import { Label, TextInput, Button, createTheme } from "flowbite-react";
 import { useState } from "react";
 import { fetchLogin } from "../services/APIs";
 import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import logoDark from '../assets/logo-dark.png';
 import bg_login from '../assets/bg-login.png';
-import { useDarkModeDetector } from "../components/DarkMode.jsx";
-import { createTheme } from "flowbite-react";
+import useDarkModeDetector from "../components/DarkMode.jsx";
+import SubmitAlert from "../components/SubmitAlert";
 
 const labelTheme = createTheme({
     label:
@@ -47,6 +47,7 @@ export default function Login() {
             setMsgType(res.msgType);
             setMessage(res.message);
             if (res.msgType === "success") {
+                localStorage.setItem("account", account);
                 setTimeout(() => {
                     navigate("/dashboard");
                 }, 100);
@@ -104,14 +105,7 @@ export default function Login() {
                     <Button type="submit">Login</Button>
                 </form>
             </div>
-            {message && (
-                <Alert
-                    color={msgType === "success" ? "success" : msgType === "failure" ? "failure" : "info"}
-                    className="m-4 fixed top-[60px] right-0"
-                >
-                    {message}
-                </Alert>
-            )}
+            <SubmitAlert message={message} msgType={msgType} />
         </article>
     );
 }

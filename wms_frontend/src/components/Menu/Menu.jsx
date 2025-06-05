@@ -1,10 +1,12 @@
-// src/components/Menu.jsx
+// src/components/Menu/Menu.jsx
 // --------------------------------------------------------
 import { useState } from "react";
 import { ListGroup, ListGroupItem } from "flowbite-react";
 import { createTheme, ThemeProvider } from "flowbite-react";
 import '../../index.css'
 import './Menu.css'
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
 
 const MenuTheme = createTheme({
     listGroup: {
@@ -39,11 +41,31 @@ function MenuFormat() {
     const [showInventory, setShowInventory] = useState(false);
     const [showController, setShowController] = useState(false);
 
+    function setHiddenItem() {
+        setShowController(false);
+        setShowInventory(false);
+        setShowInbound(false);
+    }
+
     return (
         <ThemeProvider theme={MenuTheme}>
-            <ListGroup className="min-h-screen">
-                <ListGroupItem onClick={() => setShowController((e) => !e)}>
+            <ListGroup className="min-h-screen text-md">
+                <ListGroupItem
+                    onClick={() => {
+                        if (showController) {
+                            setHiddenItem();
+                        } else {
+                            setHiddenItem();
+                            setShowController(true);
+                        }
+                    }}
+                    className="flex items-center">
                     AGV Controller
+                    {showController ? (
+                        <IoIosArrowUp className="ml-2 h-4 w-4" />
+                    ) : (
+                        <IoIosArrowDown className="ml-2 h-4 w-4" />
+                    )}
                 </ListGroupItem>
                 {showController && (
                     <>
@@ -55,9 +77,21 @@ function MenuFormat() {
                 )}
                 <ListGroupItem>System Management</ListGroupItem>
                 <ListGroupItem>System Config</ListGroupItem>
-                <ListGroupItem>Dashboard</ListGroupItem>
-                <ListGroupItem onClick={() => setShowInbound((e) => !e)}>
+                <ListGroupItem href="/dashboard">Dashboard</ListGroupItem>
+                <ListGroupItem onClick={() => {
+                    if (showInbound) {
+                        setHiddenItem();
+                    } else {
+                        setHiddenItem();
+                        setShowInbound(true);
+                    }
+                }}>
                     Inbound
+                    {showInbound ? (
+                        <IoIosArrowUp className="ml-2 h-4 w-4" />
+                    ) : (
+                        <IoIosArrowDown className="ml-2 h-4 w-4" />
+                    )}
                 </ListGroupItem>
                 {showInbound && (
                     <>
@@ -70,8 +104,20 @@ function MenuFormat() {
                         <ListGroupItem><p className="list-inside">ASN SerialNO</p></ListGroupItem>
                     </>
                 )}
-                <ListGroupItem onClick={() => setShowInventory((e) => !e)}>
+                <ListGroupItem onClick={() => {
+                    if (showInventory) {
+                        setHiddenItem();
+                    } else {
+                        setHiddenItem();
+                        setShowInventory(true);
+                    }
+                }}>
                     Inventory
+                    {showInventory ? (
+                        <IoIosArrowUp className="ml-2 h-4 w-4" />
+                    ) : (
+                        <IoIosArrowDown className="ml-2 h-4 w-4" />
+                    )}
                 </ListGroupItem>
                 {showInventory && (
                     <>

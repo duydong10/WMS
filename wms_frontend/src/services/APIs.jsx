@@ -32,6 +32,18 @@ export async function fetchLogin(data) {
     return response;
 }
 
+export async function fetchChangePassword(data) {
+    const res = await fetchWithAuth("http://192.168.68.103:5000/change_password", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+        body: JSON.stringify(data),
+    })
+    return res.json();
+}
+
 export async function fetchCreateTask(data) {
     const res = await fetchWithAuth("http://192.168.68.103:5000/agv/create_task", {
         method: "POST",
