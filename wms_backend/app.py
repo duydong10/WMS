@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)
 df = pd.read_excel("./static/mapping.xlsx", dtype=str)
 
-SECRET_KEY = "PHAMDUYDONG.2025"
+SECRET_KEY = "TANHUNGHA.2025"
 
 def token_required(f):
     @wraps(f)
