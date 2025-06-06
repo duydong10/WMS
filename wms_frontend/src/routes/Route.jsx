@@ -9,6 +9,7 @@ import AgvCallback from '../pages/AgvCallback.jsx'
 import ContinueTask from '../pages/ContinueTask.jsx'
 import Login from '../pages/Login.jsx'
 import ChangePassword from '../pages/ChangePassword.jsx'
+import ChangeLanguage from '../pages/ChangeLanguage.jsx'
 
 function ProtectedRoute() {
     const token = localStorage.getItem("jwtToken");
@@ -24,6 +25,7 @@ export default function AppRoute() {
                 <Route element={<ProtectedRoute />}>
                     <Route element={<AdminLayout />}>
                         <Route path="change_password" element={<ChangePassword />} />
+                        <Route path="change_language" element={<ChangeLanguage />} />
                         <Route path="dashboard" element={<Dashboard />} />
                         <Route path="create_task" element={<CreateTask />} />
                         <Route path="cancel_task" element={<CancelTask />} />

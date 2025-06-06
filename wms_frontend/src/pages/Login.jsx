@@ -33,6 +33,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [msgType, setMsgType] = useState("");
     const [message, setMessage] = useState("");
+    const [msgTimeout, setMsgTimeout] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -48,12 +49,14 @@ export default function Login() {
             setMessage(res.message);
             if (res.msgType === "success") {
                 localStorage.setItem("account", account);
+                setMsgTimeout(true);
                 setTimeout(() => {
                     navigate("/dashboard");
-                }, 100);
+                }, 1000);
             } else if (res.msgType === "failure") {
+                setMsgTimeout(true);
                 setTimeout(() => {
-                    setMessage("");
+                    setMsgTimeout(false);
                 }, 3000);
             }
         } catch (err) {
@@ -67,14 +70,14 @@ export default function Login() {
         <article>
             <title>Login</title>
             <img src={bg_login} className="w-screen h-screen" alt="Background" />
-            <div className="fixed top-1/2 left-1/2 z-49 -translate-1/2 bg-white dark:bg-black rounded-2xl opacity-70 w-120 h-110"></div>
-            <div className="fixed w-80 top-1/2 left-1/2 z-50 -translate-1/2 rounded-2xl">
+            <div className="fixed top-1/2 left-1/2 z-49 -translate-1/2 bg-white dark:bg-black rounded-2xl opacity-70 w-11/12 md:w-120 h-110"></div>
+            <div className="fixed w-2/3 md:w-80 top-1/2 left-1/2 z-50 -translate-1/2 rounded-2xl">
                 <a href="https://tanhungha.com.vn" className="flex justify-center">
                     {isDarkMode ? (
                         <img src={logoDark} className="h-10 sm:h-15" alt="Logo" />
                     ) : (<img src={logo} className="h-10 sm:h-15" alt="Logo" />)}
                 </a>
-                <form className="flex max-w-md flex-col gap-4 opacity-100" onSubmit={handleLogin}>
+                <form className="flex flex-col gap-4 opacity-100" onSubmit={handleLogin}>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="account" theme={labelTheme.label}>Account</Label>
@@ -105,7 +108,7 @@ export default function Login() {
                     <Button type="submit">Login</Button>
                 </form>
             </div>
-            <SubmitAlert message={message} msgType={msgType} />
+            <SubmitAlert message={message} msgType={msgType} msgTimeout={msgTimeout} />
         </article>
     );
 }

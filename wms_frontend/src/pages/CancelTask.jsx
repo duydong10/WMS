@@ -13,6 +13,7 @@ export default function CancelTask() {
     const [taskCode, setTaskCode] = useState("");
     const [message, setMessage] = useState("");
     const [msgType, setMsgType] = useState("");
+    const [msgTimeout, setMsgTimeout] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,19 +29,19 @@ export default function CancelTask() {
             .then((res) => {
                 setMessage("Task canceled successfully!");
                 setMsgType("success");
+                setMsgTimeout(true);
                 console.log("Response:", res);
                 setTimeout(() => {
-                    setMessage("");
-                    setMsgType("");
+                    setMsgTimeout(false);
                 }, 3000);
             })
             .catch((err) => {
                 setMessage("Task canceled unsuccessfully!");
                 setMsgType("failure");
+                setMsgTimeout(true);
                 console.log("Error:", err);
                 setTimeout(() => {
-                    setMessage("");
-                    setMsgType("");
+                    setMsgTimeout(false);
                 }, 3000);
             });
 
@@ -113,7 +114,7 @@ export default function CancelTask() {
                 <div className="pt-4 w-2/3">
                     <Button type="submit">Submit</Button>
                 </div>
-                <SubmitAlert message={message} type={msgType} />
+                <SubmitAlert message={message} msgType={msgType} msgTimeout={msgTimeout} />
             </form>
         </article>
     );

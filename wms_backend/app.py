@@ -32,27 +32,36 @@ def token_required(f):
         return f(*args, **kwargs)
     return decorated
 
-account = "admin"
-password = "admin01"
+
+account = [
+    {
+        "account": "admin",
+        "password": "admin01"
+    },
+    {
+        "account": "admin2",
+        "password": "admin02"
+    }
+]
 
 @app.route('/login', methods=['POST'])
 def login():
     req = request.get_json()
-    if req['account'] == account and req['password'] == password:
-        token = jwt.encode(
-            {
-                'account': account,
-                'exp': datetime.now(timezone.utc) + timedelta(minutes=10),
-            },
-            SECRET_KEY,
-            algorithm="HS256"
-        )
-        if isinstance(token, bytes):
-            token = token.decode('utf-8')
-        print(f"Token generated: {token}")
-        return jsonify({"msgType": "success", "message": "Login successful", "token": token}), 200
-    else:
-        return jsonify({"msgType": "failure", "message": "Invalid credentials"}), 401
+    for acc in account:
+        if req['account'] == acc['account'] and req['password'] == acc['password']:
+            token = jwt.encode(
+                {
+                    'account': acc['account'],
+                    'exp': datetime.now(timezone.utc) + timedelta(minutes=10),
+                },
+                SECRET_KEY,
+                algorithm="HS256"
+            )
+            if isinstance(token, bytes):
+                token = token.decode('utf-8')
+            print(f"Token generated: {token}")
+            return jsonify({"msgType": "success", "message": "Login successful", "token": token}), 200
+    return jsonify({"msgType": "failure", "message": "Invalid credentials"}), 401
 
 @app.route('/change_password', methods=['POST'])
 @token_required

@@ -18,6 +18,7 @@ export default function CreateTask() {
     const [taskCode, setTaskCode] = useState("");
     const [message, setMessage] = useState("");
     const [msgType, setMsgType] = useState("");
+    const [msgTimeout, setMsgTimeout] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -38,20 +39,20 @@ export default function CreateTask() {
             .then((res) => {
                 setMessage("Task created successfully!");
                 setMsgType("success");
+                setMsgTimeout(true)
                 console.log("Response:", res);
                 setTimeout(() => {
-                    setMessage(null);
-                    setMsgType(null);
-                }, 5000);
+                    setMsgTimeout(false);
+                }, 3000);
             })
             .catch((err) => {
                 setMessage("Task created unsuccessfully!");
                 setMsgType("failure");
+                setMsgTimeout(true);
                 console.log("Error:", err);
                 setTimeout(() => {
-                    setMessage(null);
-                    setMsgType(null);
-                }, 5000);
+                    setMsgTimeout(false);
+                }, 3000);
             });
 
     };
@@ -61,8 +62,8 @@ export default function CreateTask() {
             <title>Create Task</title>
             <h1 className="text-2xl font-bold mb-4">Create Task</h1>
             <form className="flex flex-col w-full" onSubmit={handleSubmit}>
-                <div className="flex flex-row">
-                    <div className="flex w-1/2 md:w-1/3 flex-col gap-4">
+                <div className="flex flex-col md:flex-row">
+                    <div className="flex w-full md:w-1/3 flex-col gap-4">
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="reqCode">Request ID</Label>
@@ -148,7 +149,7 @@ export default function CreateTask() {
                             </Select>
                         </div>
                     </div>
-                    <div className="flex w-1/2 md:w-1/3 flex-col gap-4 ml-8">
+                    <div className="flex w-full md:w-1/3 flex-col gap-4 md:ml-8">
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="podTyp">Task Type</Label>
@@ -201,7 +202,7 @@ export default function CreateTask() {
                 <div className="pt-4 w-2/3">
                     <Button type="submit">Submit</Button>
                 </div>
-                <SubmitAlert message={message} msgType={msgType} />
+                <SubmitAlert message={message} msgType={msgType} msgTimeout={msgTimeout} />
             </form>
         </article>
     );

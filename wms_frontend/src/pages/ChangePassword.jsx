@@ -11,6 +11,7 @@ export default function ChangePassword() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
     const [msgType, setMsgType] = useState('');
+    const [msgTimeout, setMsgTimeout] = useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -32,19 +33,19 @@ export default function ChangePassword() {
                 .then((res) => {
                     setMessage("Password changed successfully!");
                     setMsgType("success");
+                    setMsgTimeout(true);
                     console.log("Response:", res);
                     setTimeout(() => {
-                        setMessage(null);
-                        setMsgType(null);
+                        setMsgTimeout(false);
                     }, 3000);
                 })
                 .catch((err) => {
                     setMessage("Password changed unsuccessfully!");
                     setMsgType("failure");
+                    setMsgTimeout(true);
                     console.log("Error:", err);
                     setTimeout(() => {
-                        setMessage(null);
-                        setMsgType(null);
+                        setMsgTimeout(false);
                     }, 3000);
                 });
             setTimeout(() => {
@@ -105,7 +106,7 @@ export default function ChangePassword() {
                 <div className="pt-4">
                     <Button type="submit">Submit</Button>
                 </div>
-                <SubmitAlert message={message} msgType={msgType} />
+                <SubmitAlert message={message} msgType={msgType} msgTimeout={msgTimeout} />
             </form>
         </article>
     )
